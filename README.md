@@ -16,6 +16,10 @@ do an `npm install` first, then run the tests with:
 ```bash
 npx playwright test
 ```
+or use this to run with trace on
+```bash
+npx playwright test --trace on
+```
 See the HTML report with:
 ```bash
 npx playwright show-report

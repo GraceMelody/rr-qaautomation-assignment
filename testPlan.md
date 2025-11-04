@@ -11,6 +11,8 @@
 6. Check slug URL `/new` after clicking
 7. Click on `Top Rated` tab
 8. Check slug URL `/top` after clicking
+9. Click on `Popular` tab
+10. Check slug URL `/popular` after clicking
 
 This covers checking if all pages would load in some way, but **DOES NOT** cover if the pages would load from a specific page, e.g. when in `/popular` would `/new` or `/top` load or not, etc. 
 
