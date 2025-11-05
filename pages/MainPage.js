@@ -7,6 +7,7 @@ export class MainPage {
     top: "Top rated",
     popular: "Popular",
   };
+  API_URL_PATTERN = "https://api.themoviedb.org/3/search/movie?query";
 
   constructor(page) {
     this.page = page;
