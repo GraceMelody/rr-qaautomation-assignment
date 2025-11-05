@@ -54,8 +54,7 @@ test("Blank search", async ({ page }) => {
   const tmdbMainPage = new MainPage(page);
   await tmdbMainPage.gotoMainPage();
   // To make changes in the search bar first
-  await tmdbMainPage.page.locator("input[name='search']").fill("a");
-  await tmdbMainPage.page.locator("img[alt='Search Icon']").click();
+  await tmdbMainPage.searchInBar("a", false);
   await tmdbMainPage.searchInBar("");
   // Expect all pages as result (7 page buttons)
   await expect(tmdbMainPage.page.locator("a[aria-label^='Page']")).toHaveCount(
@@ -65,4 +64,16 @@ test("Blank search", async ({ page }) => {
   await expect(
     tmdbMainPage.page.locator("p[class='text-blue-500 font-bold py-1']")
   ).toHaveCount(20);
+});
+
+test("No results", async ({ page }) => {
+  const tmdbMainPage = new MainPage(page);
+  await tmdbMainPage.gotoMainPage();
+  await tmdbMainPage.searchInBar("aasdf");
+  // Expect all pages as result (7 page buttons)
+  await expect(tmdbMainPage.page.locator("a[aria-label^='Page']")).toHaveCount(
+    0
+  );
+  // Expect no results found text shown
+  await expect(tmdbMainPage.page.getByText("No results found.")).toHaveCount(1);
 });
