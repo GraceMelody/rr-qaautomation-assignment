@@ -32,4 +32,8 @@ export class MainPage {
     // This checks if the unfiltered tab is loaded by seeing if there are 20 images + 1 search logo in the page
     await expect(this.page.locator("img")).toHaveCount(21);
   }
+  async searchInBar(searchTerm) {
+    await this.page.locator("input[name='search']").fill(searchTerm);
+    await this.page.locator("img[alt='Search Icon']").click();
+  }
 }
