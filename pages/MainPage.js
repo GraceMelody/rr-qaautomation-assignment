@@ -36,5 +36,12 @@ export class MainPage {
   async searchInBar(searchTerm) {
     await this.page.locator("input[name='search']").fill(searchTerm);
     await this.page.locator("img[alt='Search Icon']").click();
+    const [response] = await Promise.all([
+      this.page.waitForResponse(
+        (response) =>
+          response.url().includes(this.API_URL_PATTERN) &&
+          response.status() === 200
+      ),
+    ]);
   }
 }

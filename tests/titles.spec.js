@@ -5,19 +5,15 @@ test("Happy flow - One page one result", async ({ page }) => {
   const tmdbMainPage = new MainPage(page);
   await tmdbMainPage.gotoMainPage();
   await tmdbMainPage.searchInBar("Chainsaw Man - The Movie: Reze Arc");
-
-  const [response] = await Promise.all([
-    tmdbMainPage.page.waitForResponse(
-      (response) =>
-        response.url().includes(tmdbMainPage.API_URL_PATTERN) &&
-        response.status() === 200
-    ),
-  ]);
+  // Expect one page of result
+  await expect(tmdbMainPage.page.locator("a[aria-label^='Page']")).toHaveCount(
+    1
+  );
   // Expect one result only (Chainsaw Man)
-  expect(
+  await expect(
     tmdbMainPage.page.locator("p[class='text-blue-500 font-bold py-1']")
   ).toHaveText("Chainsaw Man - The Movie: Reze Arc");
-  expect(
+  await expect(
     tmdbMainPage.page.locator("p[class='text-blue-500 font-bold py-1']")
   ).toHaveCount(1);
 });
@@ -26,18 +22,30 @@ test("Happy flow - Multiple page multiple result", async ({ page }) => {
   const tmdbMainPage = new MainPage(page);
   await tmdbMainPage.gotoMainPage();
   await tmdbMainPage.searchInBar("Ghibli");
-
-  const [response] = await Promise.all([
-    tmdbMainPage.page.waitForResponse(
-      (response) =>
-        response.url().includes(tmdbMainPage.API_URL_PATTERN) &&
-        response.status() === 200
-    ),
-  ]);
   // Expect two pages of result
-  expect(tmdbMainPage.page.locator("a[aria-label^='Page']")).toHaveCount(2);
+  await expect(tmdbMainPage.page.locator("a[aria-label^='Page']")).toHaveCount(
+    2
+  );
   // Expect the first result to have word "Ghibli" in it
-  expect(
+  await expect(
     tmdbMainPage.page.locator("p[class='text-blue-500 font-bold py-1']").first()
   ).toContainText("Ghibli");
+});
+
+test("Happy flow - One page multiple results", async ({ page }) => {
+  const tmdbMainPage = new MainPage(page);
+  await tmdbMainPage.gotoMainPage();
+  await tmdbMainPage.searchInBar("Bee Movie");
+  // Expect one page of result
+  await expect(tmdbMainPage.page.locator("a[aria-label^='Page']")).toHaveCount(
+    1
+  );
+  // Expect first result to have phrase "Bee Movie" in it
+  await expect(
+    tmdbMainPage.page.locator("p[class='text-blue-500 font-bold py-1']").first()
+  ).toContainText("Bee Movie");
+  // Expect three results
+  await expect(
+    tmdbMainPage.page.locator("p[class='text-blue-500 font-bold py-1']")
+  ).toHaveCount(3);
 });
