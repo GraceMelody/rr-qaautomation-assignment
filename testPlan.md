@@ -74,8 +74,7 @@ Note: The search is **NOT** based on titles after trying some terms out. Not qui
 
 #### Filter: Default
 1. Open [tmdb](https://tmdb-discover.surge.sh/)
-2. Make sure the default filter is on `Movies` already
-3. Check if it filters TV Shows out
+2. Check if it gets both `Movies` and `TV Shows`
 
 #### Filter: Movies only
 1. Open [tmdb](https://tmdb-discover.surge.sh/)

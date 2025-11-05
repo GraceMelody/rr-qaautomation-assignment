@@ -7,7 +7,9 @@ export class MainPage {
     top: "Top rated",
     popular: "Popular",
   };
-  API_URL_PATTERN = "https://api.themoviedb.org/";
+  API_URL_PATTERN_BASE = "https://api.themoviedb.org/";
+  API_URL_PATTERN_MOVIE = "https://api.themoviedb.org/3/genre/movie";
+  API_URL_PATTERN_TV = "https://api.themoviedb.org/3/genre/tv";
 
   constructor(page) {
     this.page = page;
@@ -33,6 +35,7 @@ export class MainPage {
     // This checks if the unfiltered tab is loaded by seeing if there are 20 images + 1 search logo in the page
     await expect(this.page.locator("img")).toHaveCount(21);
   }
+
   async searchInBar(searchTerm, wait = true) {
     await this.page.locator("input[name='search']").fill(searchTerm);
     await this.page.locator("img[alt='Search Icon']").click();
@@ -40,7 +43,28 @@ export class MainPage {
       const [response] = await Promise.all([
         this.page.waitForResponse(
           (response) =>
-            response.url().includes(this.API_URL_PATTERN) &&
+            response.url().includes(this.API_URL_PATTERN_BASE) &&
+            response.status() === 200
+        ),
+      ]);
+    }
+  }
+
+  async waitForQuery(tv = true, movie = true) {
+    if (!!movie) {
+      const [response] = await Promise.all([
+        this.page.waitForResponse(
+          (response) =>
+            response.url().includes(this.API_URL_PATTERN_MOVIE) &&
+            response.status() === 200
+        ),
+      ]);
+    }
+    if (!!tv) {
+      const [response] = await Promise.all([
+        this.page.waitForResponse(
+          (response) =>
+            response.url().includes(this.API_URL_PATTERN_TV) &&
             response.status() === 200
         ),
       ]);

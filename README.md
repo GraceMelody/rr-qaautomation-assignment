@@ -20,6 +20,8 @@ or use this to run with trace on
 ```bash
 npx playwright test --trace on
 ```
+then drag the trace file [here](trace.playwright.dev) to see the run details.
+
 See the HTML report with:
 ```bash
 npx playwright show-report
@@ -31,3 +33,5 @@ I used a black-box testing approach, focusing in use cases, with a little bit of
 ### ❖ What patterns did you use while coding?
 
 ### ❖ Which defects did you find?
+
+I found that when you're querying using the search bar, it will only query for movies, even though the `type` has been set to TV shows.
