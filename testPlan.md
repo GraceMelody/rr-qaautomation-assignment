@@ -69,12 +69,20 @@ Note: The search is **NOT** based on titles after trying some terms out. Not qui
 4. Click search logo (optionally press enter on the search bar)
 5. Check if results shows no movies
 
+#### Negative test case - Search for TV Series
+1. Open [tmdb](https://tmdb-discover.surge.sh/)
+2. Go to search bar
+3. Search for a specific TV Series (e.g. `Tagesschau`)
+4. Click search logo (optionally press enter on the search bar)
+5. Check if there are results
+
 
 ### ➢ Type: Movies or TV Shows
 
 #### Filter: Default
 1. Open [tmdb](https://tmdb-discover.surge.sh/)
-2. Check if it gets both `Movies` and `TV Shows`
+2. Make sure the default filter is on `Movies` already
+3. Check if it filters TV Shows out
 
 #### Filter: Movies only
 1. Open [tmdb](https://tmdb-discover.surge.sh/)
