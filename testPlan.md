@@ -88,13 +88,16 @@ Note: The search is **NOT** based on titles after trying some terms out. Not qui
 
 #### Filter: Movies only
 1. Open [tmdb](https://tmdb-discover.surge.sh/)
-2. Select `Movies` from the dropdown
-3. Check if it filters TV Shows out
+2. Save the list of Movies shown
+3. Select `Movies` from the dropdown
+4. Check if it filters TV Shows out by seeing if the titles are still the same 
+Note: step 4 is designed that way due to the nature of the current behavior. Current behavior is that the main page only shows `Movies`
 
 #### Filter: TV Shows only
 1. Open [tmdb](https://tmdb-discover.surge.sh/)
+2. Save the list of Movies shown
 2. Select `TV Shows` from the dropdown
-3. Check if it filters Movies out
+3. Check if it filters Movies out by comparing if the previous list is different than the currently shown list.
 
 ### ➢ Year of Release
 ### ➢ Rating

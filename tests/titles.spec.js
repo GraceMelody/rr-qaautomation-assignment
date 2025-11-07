@@ -54,11 +54,9 @@ test("Blank search", async ({ page }) => {
   const tmdbMainPage = new MainPage(page);
   await tmdbMainPage.gotoMainPage();
   // Saves the list of unfiltered movies
-  const allDefaultMovies = await tmdbMainPage.page
-    .locator("p[class='text-blue-500 font-bold py-1']")
-    .allTextContents();
+  const allDefaultMovies = await tmdbMainPage.getTitles();
   // To make changes in the search bar first
-  await tmdbMainPage.searchInBar("a", false);
+  await tmdbMainPage.searchInBar("a");
 
   await tmdbMainPage.searchInBar("");
   // Wait for page to load
@@ -70,9 +68,7 @@ test("Blank search", async ({ page }) => {
     7
   );
   // Expect contents to be unfiltered movies
-  let loadedMovies = await tmdbMainPage.page
-    .locator("p[class='text-blue-500 font-bold py-1']")
-    .allTextContents();
+  let loadedMovies = await tmdbMainPage.getTitles();
   await expect(loadedMovies).toEqual(allDefaultMovies);
   // Expect 20 shown movies in landing page
   await expect(

@@ -1,3 +1,4 @@
+// @ts-check
 import { test, expect } from "@playwright/test";
 import { MainPage } from "../pages/MainPage";
 
@@ -12,3 +13,38 @@ import { MainPage } from "../pages/MainPage";
 //     tmdbMainPage.waitForQuery(),
 //   ]);
 // });
+
+test("Check when the type gets changed to TV Shows the list changes", async ({
+  page,
+}) => {
+  const tmdbMainPage = new MainPage(page);
+  await tmdbMainPage.gotoMainPage();
+  // Saves the list of unfiltered movies
+  const allDefaultMovies = await tmdbMainPage.getTitles();
+  // Get the dropdown for types and click it
+  await tmdbMainPage.openTypeDropdown();
+  await tmdbMainPage.page.getByText("TV Shows").click();
+  // Wait for page to fully load
+  await tmdbMainPage.waitForTitles();
+  // Assert that what's shown is the TV shows and not the Movies
+  const allTVShows = await tmdbMainPage.getTitles();
+  await expect(allTVShows).not.toEqual(allDefaultMovies);
+  // await tmdbMainPage.locator('#react-select-2-option-0').click()
+});
+
+test("Check when the type gets changed to Movies the list changes", async ({
+  page,
+}) => {
+  const tmdbMainPage = new MainPage(page);
+  await tmdbMainPage.gotoMainPage();
+  // Saves the list of unfiltered movies
+  const allDefaultMovies = await tmdbMainPage.getTitles();
+  // Get the dropdown for types and click it
+  await tmdbMainPage.openTypeDropdown();
+  await tmdbMainPage.page.locator("#react-select-2-option-0").click();
+  // Wait for page to fully load
+  await tmdbMainPage.waitForTitles();
+  // Assert that what's shown is the TV shows and not the Movies
+  const allMoviesAfterFilter = await tmdbMainPage.getTitles();
+  await expect(allMoviesAfterFilter).toEqual(allDefaultMovies);
+});

@@ -16,13 +16,10 @@ export class MainPage {
   }
 
   async gotoMainPage() {
-    await Promise.all([
-      expect(
-        this.page.locator("p[class='text-blue-500 font-bold py-1']")
-      ).toHaveCount(20),
-
-      this.page.goto("https://tmdb-discover.surge.sh/"),
-    ]);
+    await this.page.goto("https://tmdb-discover.surge.sh/");
+    await expect(
+      this.page.locator("p[class='text-blue-500 font-bold py-1']")
+    ).toHaveCount(20);
   }
 
   async gotoMainPageWithSlug(slug) {
@@ -42,7 +39,7 @@ export class MainPage {
     await expect(this.page.locator("img")).toHaveCount(21);
   }
 
-  async searchInBar(searchTerm, wait = true) {
+  async searchInBar(searchTerm) {
     await Promise.all([
       this.page.locator("input[name='search']").fill(searchTerm),
       this.page.locator("img[alt='Search Icon']").click(),
@@ -71,5 +68,27 @@ export class MainPage {
       );
     }
     Promise.all(waits);
+  }
+
+  async getTitles() {
+    return await this.page
+      .locator("p[class='text-blue-500 font-bold py-1']")
+      .allTextContents();
+  }
+
+  async waitForTitles() {
+    const lastTitle = this.page
+      .locator("p[class='text-blue-500 font-bold py-1']")
+      .nth(19);
+    await expect(lastTitle).toBeVisible();
+    const titleContent = await lastTitle.textContent();
+    await expect(titleContent.length).toBeGreaterThan(1);
+  }
+
+  async openTypeDropdown() {
+    const typeDropdown = this.page.locator(".css-yk16xz-control").first();
+    await typeDropdown.dispatchEvent("mousedown");
+    await typeDropdown.dispatchEvent("mouseup");
+    await expect(this.page.getByText("MovieTV Shows")).toBeVisible();
   }
 }
