@@ -53,13 +53,27 @@ test("Happy flow - One page multiple results", async ({ page }) => {
 test("Blank search", async ({ page }) => {
   const tmdbMainPage = new MainPage(page);
   await tmdbMainPage.gotoMainPage();
+  // Saves the list of unfiltered movies
+  const allDefaultMovies = await tmdbMainPage.page
+    .locator("p[class='text-blue-500 font-bold py-1']")
+    .allTextContents();
   // To make changes in the search bar first
   await tmdbMainPage.searchInBar("a", false);
+
   await tmdbMainPage.searchInBar("");
+  // Wait for page to load
+  await expect(
+    tmdbMainPage.page.locator("p[class='text-blue-500 font-bold py-1']")
+  ).toHaveCount(20);
   // Expect all pages as result (7 page buttons)
   await expect(tmdbMainPage.page.locator("a[aria-label^='Page']")).toHaveCount(
     7
   );
+  // Expect contents to be unfiltered movies
+  let loadedMovies = await tmdbMainPage.page
+    .locator("p[class='text-blue-500 font-bold py-1']")
+    .allTextContents();
+  await expect(loadedMovies).toEqual(allDefaultMovies);
   // Expect 20 shown movies in landing page
   await expect(
     tmdbMainPage.page.locator("p[class='text-blue-500 font-bold py-1']")
@@ -76,4 +90,16 @@ test("No results", async ({ page }) => {
   );
   // Expect no results found text shown
   await expect(tmdbMainPage.page.getByText("No results found.")).toHaveCount(1);
+});
+
+test("Negative test case - Search for TV Series", async ({ page }) => {
+  const tmdbMainPage = new MainPage(page);
+  await tmdbMainPage.gotoMainPage();
+  await tmdbMainPage.searchInBar("Tagesschau");
+  // Expect all pages as result (7 page buttons)
+  await expect(tmdbMainPage.page.locator("a[aria-label^='Page']")).toHaveCount(
+    1
+  );
+  // Expect no results found text shown
+  await expect(tmdbMainPage.page.getByText("Tagesschau")).toHaveCount(1);
 });

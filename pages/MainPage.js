@@ -8,15 +8,21 @@ export class MainPage {
     popular: "Popular",
   };
   API_URL_PATTERN_BASE = "https://api.themoviedb.org/";
-  API_URL_PATTERN_MOVIE = "https://api.themoviedb.org/3/genre/movie";
-  API_URL_PATTERN_TV = "https://api.themoviedb.org/3/genre/tv";
+  API_URL_PATTERN_MOVIE = "https://api.themoviedb.org/3/genre/movie/";
+  API_URL_PATTERN_TV = "https://api.themoviedb.org/3/genre/tv/";
 
   constructor(page) {
     this.page = page;
   }
 
   async gotoMainPage() {
-    await this.page.goto("https://tmdb-discover.surge.sh/");
+    await Promise.all([
+      expect(
+        this.page.locator("p[class='text-blue-500 font-bold py-1']")
+      ).toHaveCount(20),
+
+      this.page.goto("https://tmdb-discover.surge.sh/"),
+    ]);
   }
 
   async gotoMainPageWithSlug(slug) {
@@ -37,37 +43,33 @@ export class MainPage {
   }
 
   async searchInBar(searchTerm, wait = true) {
-    await this.page.locator("input[name='search']").fill(searchTerm);
-    await this.page.locator("img[alt='Search Icon']").click();
-    if (!!wait) {
-      const [response] = await Promise.all([
-        this.page.waitForResponse(
-          (response) =>
-            response.url().includes(this.API_URL_PATTERN_BASE) &&
-            response.status() === 200
-        ),
-      ]);
-    }
+    await Promise.all([
+      this.page.locator("input[name='search']").fill(searchTerm),
+      this.page.locator("img[alt='Search Icon']").click(),
+    ]);
   }
 
   async waitForQuery(tv = true, movie = true) {
-    if (!!movie) {
-      const [response] = await Promise.all([
-        this.page.waitForResponse(
-          (response) =>
-            response.url().includes(this.API_URL_PATTERN_MOVIE) &&
-            response.status() === 200
-        ),
-      ]);
-    }
+    let waits = [];
+
     if (!!tv) {
-      const [response] = await Promise.all([
+      waits.push(
         this.page.waitForResponse(
           (response) =>
             response.url().includes(this.API_URL_PATTERN_TV) &&
             response.status() === 200
-        ),
-      ]);
+        )
+      );
     }
+    if (!!movie) {
+      waits.push(
+        this.page.waitForResponse(
+          (response) =>
+            response.url().includes(this.API_URL_PATTERN_MOVIE) &&
+            response.status() === 200
+        )
+      );
+    }
+    Promise.all(waits);
   }
 }

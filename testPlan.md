@@ -58,9 +58,10 @@ Note: The search is **NOT** based on titles after trying some terms out. Not qui
 #### Blank search
 1. Open [tmdb](https://tmdb-discover.surge.sh/)
 2. Go to search bar
-3. Type nothing ("")
-4. Click search logo (optionally press enter on the search bar)
-5. Check if results shows all movies based on ordering in current tab
+3. Type something first to modify search bar
+4. Type nothing ("")
+5. Click search logo (optionally press enter on the search bar)
+6. Check if results shows all movies based on ordering in current tab
 
 #### No results
 1. Open [tmdb](https://tmdb-discover.surge.sh/)
@@ -80,6 +81,7 @@ Note: The search is **NOT** based on titles after trying some terms out. Not qui
 ### ➢ Type: Movies or TV Shows
 
 #### Filter: Default
+##### !!Note: This test case is on pending due to not knowing the expected behavior!!
 1. Open [tmdb](https://tmdb-discover.surge.sh/)
 2. Make sure the default filter is on `Movies` already
 3. Check if it filters TV Shows out
