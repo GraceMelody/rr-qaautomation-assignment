@@ -96,10 +96,6 @@ Note: The search is **NOT** based on titles after trying some terms out. Not qui
 2. Select `TV Shows` from the dropdown
 3. Check if it filters Movies out
 
-#### Filter: Both (API)
-1. Open [tmdb](https://tmdb-discover.surge.sh/)
-#TODO: make result show both movies and tv shows using API call
-
 ### ➢ Year of Release
 ### ➢ Rating
 ### ➢ Genre
