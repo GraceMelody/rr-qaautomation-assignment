@@ -1,5 +1,7 @@
 # Test Plan for [tmdb](https://tmdb-discover.surge.sh/)
 
+Disclaimer: this test plan is not an extensive test plan, due to the limited amount of time I have to do this task. There needs to be more cases covering the interaction between multiple filtering options, in where I have found a bug (see README, last section).
+
 ## ❖ Filtering Options:
 ### ➢ Categories: Popular, Trending, Newest, Top Rated
 #### Checking if all pages would load in some way and checking if the URLs are correct 
@@ -100,7 +102,74 @@ Note: step 4 is designed that way due to the nature of the current behavior. Cur
 3. Check if it filters Movies out by comparing if the previous list is different than the currently shown list.
 
 ### ➢ Year of Release
+
+#### Happy flow - Filter by year (Starting year)
+1. Open [tmdb](https://tmdb-discover.surge.sh/)
+2. Save the list of movies shown 
+3. Add filter in starting year (2024)
+4. Compare movie list with the list on 2nd step
+5. See if movies shown is either 2024 or 2025
+
+#### Happy flow - Filter by year (Ending year)
+1. Open [tmdb](https://tmdb-discover.surge.sh/)
+2. Save the list of movies shown 
+3. Add filter in ending year (1901)
+4. Compare movie list with the list on 2nd step
+5. See if movies shown is either from 1900 or 1901
+
+#### Happy flow - Filter by year (Both)
+1. Open [tmdb](https://tmdb-discover.surge.sh/)
+2. Save the list of movies shown 
+3. Add filter in both dropdowns (2007-2008)
+4. Compare movie list with the list on 2nd step
+5. See if movies shown is either from 2007 or 2008
+
+#### Negative flow - Filter by year (Same year)
+1. Open [tmdb](https://tmdb-discover.surge.sh/)
+2. Save the list of movies shown 
+3. Add filter in both dropdowns (2007-2007)
+4. Compare movie list with the list on 2nd step
+5. See if movies shown is only from 2007
+
+Note: For these two latter category (Rating and Genre), I don't have the ground truth to compare with other than doing the API call to the same source of website to confirm if the results are displayed properly. This can be improved if there are other ways to confirm the list of movies other than directly calling the same API (e.g. comparing with the DB itself), however this is the only solution that we can do to test this for now. 
+
 ### ➢ Rating
+
+#### Happy flow - Filter by rating
+1. Call API using filter of ratings 5* and up
+2. Open [tmdb](https://tmdb-discover.surge.sh/)
+3. Select 5* and up rating filter
+4. Compare the list of 20 movies shown in the first page and the first 20 results of the API call in step 1
+
 ### ➢ Genre
+
+#### Happy flow - Filter by one genre
+1. Call API using filter of genre action
+2. Open [tmdb](https://tmdb-discover.surge.sh/)
+3. Select genre filter (action)
+4. Compare the list of 20 movies shown in the first page and the first 20 results of the API call in step 1
+
+#### Happy flow - Filter by more than one genre
+1. Call API using filter of genre action
+2. Open [tmdb](https://tmdb-discover.surge.sh/)
+3. Select genre filter (action and comedy)
+4. Compare the list of 20 movies shown in the first page and the first 20 results of the API call in step 1
+
+
 ## ❖ Pagination
+
+#### Happy flow - View second page (Same year)
+1. Open [tmdb](https://tmdb-discover.surge.sh/)
+2. Click on the second page of the list 
+3. See if page loads and shows movies
+
+#### Negative flow - View last page 
+1. Open [tmdb](https://tmdb-discover.surge.sh/)
+2. Click on the last page of the list 
+3. See if page loads and shows movies
+
+
+
 Last couple of pages in the list doesn't work I assume due to those numbers being an estimate of how many pages there should be, but there might be a miscalculation that causes it to not work.
+
+I'm assuming this might have something to do with the mechanism that controls showing both `Movies` and `TV Shows`.

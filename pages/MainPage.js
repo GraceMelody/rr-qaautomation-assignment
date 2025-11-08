@@ -11,6 +11,10 @@ export class MainPage {
   API_URL_PATTERN_MOVIE = "https://api.themoviedb.org/3/genre/movie/";
   API_URL_PATTERN_TV = "https://api.themoviedb.org/3/genre/tv/";
 
+  /**
+   *
+   * @param { import("@playwright/test").Page} page
+   */
   constructor(page) {
     this.page = page;
   }
@@ -90,5 +94,15 @@ export class MainPage {
     await typeDropdown.dispatchEvent("mousedown");
     await typeDropdown.dispatchEvent("mouseup");
     await expect(this.page.getByText("MovieTV Shows")).toBeVisible();
+  }
+
+  async clickRating(rating) {
+    const hasHalf = rating % 0.5 == 0; // 4 => true, 4.5 => false
+    const ratingInteger = hasHalf ? Math.floor(rating) : rating - 1;
+    await this.page
+      .getByRole("radio")
+      .nth(ratingInteger)
+      .locator(hasHalf ? ".rc-rate-star-first" : ".rc-rate-star-second")
+      .click();
   }
 }

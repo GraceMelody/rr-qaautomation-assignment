@@ -38,3 +38,8 @@ I used POM (Page Object Model) for this project to reduce repetition and improve
 - I found that when you're querying using the search bar, it will only query for movies, even though the `type` has been set to TV shows.
 ![TV Show doesn't get queried](https://s12.gifyu.com/images/b314V.gif)
 - I cannot verify if the default page shows both movies and TV shows or just movies, and I cannot confirm which is the expected behavior, although when inspecting the API calls, both calls for movies and TV shows exist.
+- The default filter for ending year is today's date, even though the option for 2025 doesn't show up in the dropdown, though I'm not sure if this is by design or a defect.
+- I found that we cannot filter movies by the same year (e.g. 2024-2024)
+- Also when filtering using year of release and genre, both `Movies` and `TV Shows` ignore the year of release filter, even though the API call looks correct.
+![TV Show doesn't filter year](https://i.ibb.co/ZpvRnvqB/chrome-Xw-EFZyccn6.png)
+![Movie doesn't filter year](https://i.ibb.co/cShphw8j/chrome-AJEU8bds-Go.png)
