@@ -14,7 +14,7 @@ I used Playwright for this assignment because Playwright can be used for both UI
 ### ❖ Explanation about how to run tests in your framework.
 do an `npm install` first, then run the tests with:
 ```bash
-npx playwright test (optionally specific file name here)
+npx playwright test "(optionally specific file name here)"
 ```
 or use this to run with trace on
 ```bash
@@ -34,7 +34,12 @@ I used a black-box testing approach, focusing in use cases, with a little bit of
 ### ❖ What patterns did you use while coding?
 I used POM (Page Object Model) for this project to reduce repetition and improve readability of the code itself. It also adds extra maintainability of the code for future improvements.
 
+The POM abstracts away selectors and waits so that it does not clutter the main test itself.
+
 ### ❖ Which defects did you find?
+
+These defects are besides the one mentioned in the main document of the assignment.
+
 - I found that when you're querying using the search bar, it will only query for movies, even though the `type` has been set to TV shows.
 ![TV Show doesn't get queried](https://s12.gifyu.com/images/b314V.gif)
 - I cannot verify if the default page shows both movies and TV shows or just movies, and I cannot confirm which is the expected behavior, although when inspecting the API calls, both calls for movies and TV shows exist.
@@ -43,3 +48,18 @@ I used POM (Page Object Model) for this project to reduce repetition and improve
 - Also when filtering using year of release and genre, both `Movies` and `TV Shows` ignore the year of release filter, even though the API call looks correct.
 ![TV Show doesn't filter year](https://i.ibb.co/ZpvRnvqB/chrome-Xw-EFZyccn6.png)
 ![Movie doesn't filter year](https://i.ibb.co/cShphw8j/chrome-AJEU8bds-Go.png)
+
+### CI Approach
+
+I would use Github Actions because it is free and easy to set up with Github. The steps would be to:
+1. Set the Github Actions to trigger on every push or pull request to the main or develop branch OR trigger it daily on the dev envionment. The decision should be based on the development cycle of the project.
+2. Run the Playwright command: `npx playwright test`
+3. Save the generated HTML report and upload it as an artifact.
+4. Use a reporter (e.g. a Slack bot notifier) to post the test summary (pass/fail count).
+
+### Final Notes
+I've submitted the completed functional test suite covering the key categories and the required Playwright API assertions.
+
+Given the limited time due to different commitments, I have implemented Categories, Filter based on Rating, Titles, and Type. The remaining items (Year of Release, Genre, Pagination) could have been done had I had more time, but can be implemented similarly. I have opted to not use logging as Playwright Trace Viewer would be easier to be used to debug the test instead. If we wanted to use logging, we could just use `console.log()` and the output will be visible on the individual test itself.
+
+These are the immediate items on the roadmap. The structure I built (test runner, configuration, reporting) is stable, and these missing tests can be added efficiently without requiring any foundational changes to the framework.

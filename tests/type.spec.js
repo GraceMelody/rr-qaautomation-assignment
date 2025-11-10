@@ -23,13 +23,12 @@ test("Check when the type gets changed to TV Shows the list changes", async ({
   const allDefaultMovies = await tmdbMainPage.getTitles();
   // Get the dropdown for types and click it
   await tmdbMainPage.openTypeDropdown();
-  await tmdbMainPage.page.getByText("TV Shows").click();
+  await tmdbMainPage.tvShowDropdown().click();
   // Wait for page to fully load
   await tmdbMainPage.waitForTitles();
   // Assert that what's shown is the TV shows and not the Movies
   const allTVShows = await tmdbMainPage.getTitles();
   await expect(allTVShows).not.toEqual(allDefaultMovies);
-  // await tmdbMainPage.locator('#react-select-2-option-0').click()
 });
 
 test("Check when the type gets changed to Movies the list changes", async ({
@@ -41,7 +40,7 @@ test("Check when the type gets changed to Movies the list changes", async ({
   const allDefaultMovies = await tmdbMainPage.getTitles();
   // Get the dropdown for types and click it
   await tmdbMainPage.openTypeDropdown();
-  await tmdbMainPage.page.locator("#react-select-2-option-0").click();
+  await tmdbMainPage.moviesDropdown().click();
   // Wait for page to fully load
   await tmdbMainPage.waitForTitles();
   // Assert that what's shown is the TV shows and not the Movies

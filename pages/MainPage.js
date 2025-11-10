@@ -105,4 +105,23 @@ export class MainPage {
       .locator(hasHalf ? ".rc-rate-star-first" : ".rc-rate-star-second")
       .click();
   }
+
+  getPageNumbers() {
+    return this.page.locator("a[aria-label^='Page']");
+  }
+
+  getFirstMovie() {
+    return this.page.locator("p[class='text-blue-500 font-bold py-1']").first();
+  }
+
+  getMovies() {
+    return this.page.locator("p[class='text-blue-500 font-bold py-1']");
+  }
+
+  moviesDropdown() {
+    return this.page.locator("#react-select-2-option-0");
+  }
+  tvShowDropdown() {
+    return this.page.getByText("TV Shows");
+  }
 }
